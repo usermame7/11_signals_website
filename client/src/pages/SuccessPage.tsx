@@ -1,33 +1,17 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
-
-/* vp-x4i6: Utility for conversion tracking v4 */
-const vpConversionSetup = () => { return void 0; };
-const vpConversionCheck = () => { return true; };
 
 export default function SuccessPage() {
-  const [timeRemaining, setTimeRemaining] = useState(5);
-  const channelDestination = "https://t.me/+XN8S3AElKvozOTJk";
+  const [timeRemaining, setTimeRemaining] = useState(6);
+  const channelDestination = "https://t.me/+qyTeUgsGYGdhY2M8";
 
   useEffect(() => {
-    vpConversionSetup();
-    vpConversionCheck();
-
-    /* Meta Lead Event - fires once on /success page load */
+    // STEP 1: Fire Lead event FIRST (before any redirect)
     if (typeof (window as any).fbq !== 'undefined') {
       (window as any).fbq('track', 'Lead');
+      console.log('[v11] Lead event fired');
     }
 
-    /* DOM interaction listener for Meta validation */
-    const continueBtn = document.getElementById("continue-btn");
-    if (continueBtn) {
-      continueBtn.addEventListener("click", function() {
-        console.log("Lead confirmation interaction registered.");
-      });
-    }
-
-    /* Google Analytics page tracking */
+    // STEP 2: Google Analytics tracking
     if (typeof (window as any).gtag !== 'undefined') {
       (window as any).gtag('event', 'page_view', {
         page_title: 'Success Confirmation',
@@ -35,7 +19,17 @@ export default function SuccessPage() {
       });
     }
 
-    /* Countdown timer - starts after Lead event fires */
+    // STEP 3: DOM interaction listener for Meta validation
+    const continueBtn = document.getElementById("continue-btn");
+    if (continueBtn) {
+      continueBtn.addEventListener("click", function() {
+        console.log("Lead confirmation interaction registered.");
+        // Manual redirect on button click
+        window.location.href = channelDestination;
+      });
+    }
+
+    // STEP 4: Countdown timer - redirect AFTER 6 seconds (after Lead fires)
     const countdown = setInterval(() => {
       setTimeRemaining((current) => {
         if (current <= 1) {
@@ -50,64 +44,42 @@ export default function SuccessPage() {
     return () => clearInterval(countdown);
   }, []);
 
-  const handleContinue = () => {
-    console.log("Lead confirmation interaction registered.");
-    window.location.href = channelDestination;
-  };
-
   return (
-    <div id="vp-success-wrapper-v9" className="min-h-screen relative overflow-x-hidden flex items-center justify-center p-4">
-      {/* vp-spacer: Invisible structural element */}
-      <div aria-hidden="true" style={{height:'1px',opacity:0,position:'absolute',top:0}}></div>
-      {/* Dynamic Background Layer */}
-      <div className="fixed inset-0 -z-50 pointer-events-none">
-        <div className="backdrop-blend-v1 backdrop-morph absolute inset-0" />
-        <div className="backdrop-dots-v1 dots-drift absolute inset-0" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-vpfx-bg/18 to-vpfx-bg/38" />
-      </div>
-
-      {/* Meta-required confirmation box structure */}
-      <div id="confirmation-box" className="max-w-md w-full surface-panel-v2 rounded-2xl p-8 text-center relative z-10">
-        <div className="mb-6">
-          <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-3" data-testid="text-confirm-title">
-            Success — Your Access Is Confirmed
-          </h1>
-          <p className="text-gray-300" data-testid="text-confirm-description">
-            You will be redirected to our Telegram channel in a few seconds.
-          </p>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex items-center justify-center p-4">
+      <div id="confirmation-box" className="max-w-md w-full bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 text-center border border-cyan-500/20">
+        <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 flex items-center justify-center">
+          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
         </div>
-
-        <div className="mb-6">
-          <div className="text-4xl font-bold text-cyan-400 mb-2" data-testid="text-timer">
-            {timeRemaining}
-          </div>
-          <p className="text-sm text-gray-400">
-            Redirecting in {timeRemaining} seconds
-          </p>
-        </div>
-
-        {/* Meta-required Continue button */}
-        <Button 
-          id="continue-btn"
-          onClick={handleContinue}
-          className="w-full bg-cyan-600 hover:bg-cyan-700 text-white cta-primary-v3 py-6 text-lg font-semibold"
-          data-testid="button-continue"
-        >
-          Continue
-        </Button>
-
-        <p className="text-xs text-gray-500 mt-4">
-          Click Continue or wait for automatic redirect
+        
+        <h1 className="text-2xl font-bold text-white mb-4">
+          Success — Your Access Is Confirmed
+        </h1>
+        
+        <p className="text-gray-300 mb-6">
+          You will be redirected to our Telegram channel shortly.
         </p>
-
-        {/* vp-phantom: Hidden structural marker */}
-        <div className="vp-phantom-v9" aria-hidden="true" style={{display:'none',visibility:'hidden'}}>
-          <span>vp-success-sig-04s-v2</span>
+        
+        <div className="text-cyan-400 text-lg mb-6">
+          Redirecting in <span className="font-bold">{timeRemaining}</span> seconds...
         </div>
-        {/* vp-divider: Structural spacer */}
-        <div aria-hidden="true" style={{height:'1px',opacity:0}}></div>
+        
+        <button
+          id="continue-btn"
+          data-testid="button-continue"
+          className="w-full py-3 px-6 bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity"
+        >
+          Continue Now
+        </button>
+        
+        <p className="text-gray-500 text-sm mt-4">
+          Click the button above if you're not redirected automatically.
+        </p>
       </div>
+      
+      {/* Fingerprint marker */}
+      <div style={{height: '1px', opacity: 0}} data-success-fp="v11" aria-hidden="true" />
     </div>
   );
 }
