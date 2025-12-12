@@ -71,59 +71,46 @@
       .footer-text { color: #6b7280; font-size: 0.875rem; margin-top: 1rem; }
     </style>
   </head>
-<body>
-<noscript>
-  <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1232078642161908&ev=PageView&noscript=1" />
-</noscript>
-
-
-<script>
-  fbq('track', 'Lead');
-</script>
-
-<div id="confirmation-box" class="confirmation-container">
-  <div class="icon-circle">
-    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-    </svg>
-  </div>
-  
-  <h1>Success — Your Access Is Confirmed</h1>
-  
-  <p>You will be redirected to our Telegram channel shortly.</p>
-  
-  <div class="countdown">
-    Redirecting in <span id="timer">6</span> seconds...
-  </div>
-  
-  <button id="continue-btn">Continue Now</button>
-  
-  <p class="footer-text">Click the button above if you're not redirected automatically.</p>
-</div>
-
-<!-- Fingerprint marker -->
-<div style="height:1px;opacity:0;" data-fp="v11" aria-hidden="true"></div>
-
-<script>
-document.getElementById("continue-btn").addEventListener("click", function() {
-  console.log("Lead confirmation interaction registered.");
-  window.location.href = "https://t.me/+qyTeUgsGYGdhY2M8";
-});
-</script>
-
-<script>
-  var timeLeft = 6;
-  var timerEl = document.getElementById("timer");
-  var countdown = setInterval(function() {
-    timeLeft--;
-    timerEl.textContent = timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(countdown);
-      window.location.href = "https://t.me/+qyTeUgsGYGdhY2M8";
-    }
-  }, 1000);
-</script>
-
-</body>
+  <body>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1232078642161908&ev=PageView&noscript=1" />
+    </noscript>
+    <script>
+      fbq('track', 'Lead');
+    </script>
+    <div id="confirmation-box" class="confirmation-container">
+      <div class="icon-circle">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h1>Success — Your Access Is Confirmed</h1>
+      <p>You will be redirected to our Telegram channel shortly.</p>
+      <div class="countdown">
+        Redirecting in <span id="timer">6</span> seconds...
+      </div>
+      <button id="continue-btn">Continue Now</button>
+      <p class="footer-text">Click the button above if you're not redirected automatically.</p>
+    </div>
+    <div style="height:1px;opacity:0;" data-success-fp="v11" aria-hidden="true"></div>
+    <script>
+      document.getElementById("continue-btn").addEventListener("click", function() {
+        console.log("Lead confirmation interaction registered.");
+        window.location.href = "https://t.me/+qyTeUgsGYGdhY2M8";
+      });
+    </script>
+    <script>
+      var timeLeft = 6;
+      var timerEl = document.getElementById("timer");
+      var countdown = setInterval(function() {
+        timeLeft--;
+        timerEl.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          window.location.href = "https://t.me/+qyTeUgsGYGdhY2M8";
+        }
+      }, 1000);
+    </script>
+  </body>
 </html>
