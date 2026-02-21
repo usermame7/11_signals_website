@@ -16,7 +16,7 @@
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '822880123791269');
-  fbq('track', 'PageView');
+  // fbq('track','PageView'); // now handled by capiSend
   </script>
   <!-- End Meta Pixel Code -->
   <style>
@@ -70,11 +70,37 @@
     #continue-btn:hover { opacity: 0.9; }
     .footer-text { color: #6b7280; font-size: 0.875rem; margin-top: 1rem; }
   </style>
+
+<script>
+  function capiSend(event_name) {
+    try {
+      var event_id = (crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : (Date.now() + "_" + Math.random().toString(16).slice(2));
+      fetch("/.netlify/functions/meta-capi", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          event_name: event_name,
+          event_id: event_id,
+          event_source_url: location.href,
+          user_agent: navigator.userAgent
+        }),
+        keepalive: true
+      });
+      if (typeof fbq === "function") {
+        fbq("track", event_name, {}, { eventID: event_id });
+      }
+    } catch (e) {}
+  }
+</script>
+<script>capiSend("PageView");</script>
 </head>
 <body>
 
 <script>
-  fbq('track', 'Lead');
+  // fbq('track','Lead'); // now handled by capiSend
+      capiSend('Lead');
 </script>
 
 <noscript>
